@@ -1,0 +1,23 @@
+{
+  "id": "chatcmpl-9PZ5JFXdshQkEdKnoYtLyOHz9vBG3",
+  "object": "chat.completion",
+  "created": 1715880093,
+  "model": "gpt-3.5-turbo-0125",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "I am an AI virtual assistant designed to help and provide information to users. How can I assist you today?"
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 22,
+    "total_tokens": 32
+  },
+  "system_fingerprint": null
+}
