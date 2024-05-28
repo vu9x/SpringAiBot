@@ -27,18 +27,9 @@ public class HttpOpenAiBuilder {
         this.model = model;
     }
 
-    public HttpResponse<String> openAiResponse(String message){
+    public String openAiResponse(String message){
 
         //TODO сделать более элегантное решение через JSON объект
-//        String requestBody = "{\"model\": \"" + model + "\", " +
-//                "\"messages\": [{" +
-//                "{" +
-//                    "\"role\": \"system\", " +
-//                    "\"content\": \"You are a helpful assistant\"" +
-//                "},{" +
-//                    "\"role\": \"user\", " +
-//                    "\"content\": \"" + message + "\"" +
-//                "}]}";;
         String requestBody = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}]}";
 
         try(HttpClient httpClient = HttpClient.newHttpClient();) {
@@ -51,14 +42,19 @@ public class HttpOpenAiBuilder {
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
             log.info(response.statusCode());
 
-            return response;
+            return extractContentFromResponse(response.body());
 
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String extractContentFromResponse(String response) {
+        int startMarker = response.indexOf("content")+11; // Marker for where the content starts.
+        int endMarker = response.indexOf("\"", startMarker); // Marker for where the content ends.
+        return response.substring(startMarker, endMarker); // Returns the substring containing only the response.
     }
 
 

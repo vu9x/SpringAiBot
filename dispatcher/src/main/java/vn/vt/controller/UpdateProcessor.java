@@ -12,13 +12,13 @@ import static vn.vt.model.RabbitQueue.*;
 
 @Component
 @Log4j2
-public class UpdateController {
+public class UpdateProcessor {
     private AiTelegramBot aiTelegramBot;
     private MessageUtils messageUtils;
     private UpdateProducer updateProducer;
 
     @Autowired
-    public UpdateController(MessageUtils messageUtils, UpdateProducer updateProducer) {
+    public UpdateProcessor(MessageUtils messageUtils, UpdateProducer updateProducer) {
         this.messageUtils = messageUtils;
         this.updateProducer = updateProducer;
     }

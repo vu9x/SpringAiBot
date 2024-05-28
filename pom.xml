@@ -23,7 +23,11 @@
 		<module>common-rabbitmq</module>
 		<module>node</module>
 		<module>common-jpa</module>
-	</modules>
+        <module>rest-service</module>
+        <module>common-utils</module>
+        <module>mail-service</module>
+        <module>gmailauth</module>
+    </modules>
 	<properties>
 		<java.version>22</java.version>
 		<lombok.version>1.18.32</lombok.version>
