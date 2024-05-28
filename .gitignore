@@ -33,5 +33,8 @@ build/
 .vscode/
 
 ### resourses ###
-#.properties
-#.yaml
+application.properties
+application.yaml
+*.apps.googleusercontent.com.json
+
+git-filter-repo
