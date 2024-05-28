@@ -1,27 +1,27 @@
 package vn.vt.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import vn.vt.configuration.RabbitConfiguration;
 import vn.vt.service.UpdateProducer;
 import vn.vt.utils.*;
 
-import static vn.vt.model.RabbitQueue.*;
 
-@Component
 @Log4j2
+@RequiredArgsConstructor
+@Component
 public class UpdateProcessor {
-    private AiTelegramBot aiTelegramBot;
-    private MessageUtils messageUtils;
-    private UpdateProducer updateProducer;
 
-    @Autowired
-    public UpdateProcessor(MessageUtils messageUtils, UpdateProducer updateProducer) {
-        this.messageUtils = messageUtils;
-        this.updateProducer = updateProducer;
-    }
+    private AiTelegramBot aiTelegramBot;
+
+    private final MessageUtils messageUtils;
+
+    private final UpdateProducer updateProducer;
+
+    private final RabbitConfiguration rabbitConfiguration;
 
     public void registerBot(AiTelegramBot aiTelegramBot){
         this.aiTelegramBot = aiTelegramBot;
@@ -56,16 +56,16 @@ public class UpdateProcessor {
 
     private void processPhotoMessage(Update update) {
         setFileIsReceivedView(update);
-        updateProducer.produce(PHOTO_MESSAGE_UPDATE, update);
+        updateProducer.produce(rabbitConfiguration.getPhotoMessageUpdateQueue(), update);
     }
 
     private void processDocMessage(Update update) {
         setFileIsReceivedView(update);
-        updateProducer.produce(DOC_MESSAGE_UPDATE, update);
+        updateProducer.produce(rabbitConfiguration.getDocMessageUpdateQueue(), update);
     }
 
     private void processTextMessage(Update update) {
-        updateProducer.produce(TEXT_MESSAGE_UPDATE, update);
+        updateProducer.produce(rabbitConfiguration.getTextMessageUpdateQueue(), update);
     }
 
     private void setUnsupportedMessageTypeView(Update update) {

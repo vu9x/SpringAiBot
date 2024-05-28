@@ -3,6 +3,7 @@ package vn.vt.utils;
 import org.hashids.Hashids;
 
 public class CryptoTool {
+
     private final Hashids hashids;
 
     public CryptoTool(String salt) {

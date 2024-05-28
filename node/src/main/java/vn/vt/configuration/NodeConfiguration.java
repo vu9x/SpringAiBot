@@ -7,6 +7,7 @@ import vn.vt.utils.CryptoTool;
 
 @Configuration
 public class NodeConfiguration {
+
     @Value("${salt}")
     private String salt;
 

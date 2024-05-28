@@ -26,7 +26,6 @@
         <module>rest-service</module>
         <module>common-utils</module>
         <module>mail-service</module>
-        <module>gmailauth</module>
     </modules>
 	<properties>
 		<java.version>22</java.version>

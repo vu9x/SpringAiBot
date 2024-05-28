@@ -15,31 +15,37 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <telegrambot.starter.version>6.9.7.1</telegrambot.starter.version>
+        <postgresql.version>42.7.3</postgresql.version>
+
+        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
+        <org.json.version>20240303</org.json.version>
+
+        <commom-jpa.version>0.0.1-SNAPSHOT</commom-jpa.version>
+        <common-utils.version>0.0.1-SNAPSHOT</common-utils.version>
+<!--        <openai.version>0.0.1-SNAPSHOT</openai.version>-->
+
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>vn.vt</groupId>
-            <artifactId>common-rabbitmq</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>vn.vt</groupId>
             <artifactId>common-jpa</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${commom-jpa.version}</version>
         </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>vn.vt</groupId>-->
 <!--            <artifactId>openai</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <version>${openai.version}</version>-->
 <!--        </dependency>-->
 
         <dependency>
             <groupId>vn.vt</groupId>
             <artifactId>common-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${common-utils.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
@@ -68,35 +74,35 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>4.0.2</version>
+            <version>${jakarta.xml.bind-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <version>${jaxb-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <version>${javax.mail.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20240303</version>
+            <version>${org.json.version}</version>
         </dependency>
 
 
