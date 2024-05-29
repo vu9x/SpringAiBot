@@ -1,18 +1,16 @@
 package vn.vt.controller;
 
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.vt.service.UserActivationService;
 
+@RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
 public class ActivationController {
-    private final UserActivationService userActivationService;
 
-    public ActivationController(UserActivationService userActivationService) {
-        this.userActivationService = userActivationService;
-    }
+    private final UserActivationService userActivationService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/activation")
     public ResponseEntity<?> activation(@RequestParam("id") String id){

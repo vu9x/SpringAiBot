@@ -1,6 +1,7 @@
 package vn.vt.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,12 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 @Log4j2
+@RequiredArgsConstructor
 @RequestMapping("/file")
 @RestController
 public class FileController {
-    private final FileService fileService;
 
-    public FileController(FileService fileService) {
-        this.fileService = fileService;
-    }
+    private final FileService fileService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/get-doc")
     public void getDoc(@RequestParam("id") String id, HttpServletResponse response) throws UnsupportedEncodingException {

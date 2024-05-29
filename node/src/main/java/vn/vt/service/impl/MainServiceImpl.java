@@ -1,5 +1,6 @@
 package vn.vt.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,8 +17,9 @@ import vn.vt.service.enums.ServiceCommand;
 import static vn.vt.entity.enums.UserState.*;
 import static vn.vt.service.enums.ServiceCommand.*;
 
-@Service
 @Log4j2
+@RequiredArgsConstructor
+@Service
 public class MainServiceImpl implements MainService {
     private final RawDataDAO rawDataDAO;
     private final ProducerService producerService;
@@ -26,18 +28,6 @@ public class MainServiceImpl implements MainService {
     private final AppUserService appUserService;
 //    private final TextService textService;
 //    private final OpenAiService openAiService;
-
-    public MainServiceImpl(RawDataDAO rawDataDAO,
-                           ProducerService producerService,
-                           AppUserDAO appUserDAO,
-                           FileService fileService,
-                           AppUserService appUserService) {
-        this.rawDataDAO = rawDataDAO;
-        this.producerService = producerService;
-        this.appUserDAO = appUserDAO;
-        this.fileService = fileService;
-        this.appUserService = appUserService;
-    }
 
     @Override
     public void processTextMessage(Update update) {
@@ -122,7 +112,6 @@ public class MainServiceImpl implements MainService {
 
 
     }
-
 
     private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
         var userState = appUser.getState();

@@ -1,5 +1,6 @@
 package vn.vt.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @Log4j2
+@RequiredArgsConstructor
 @Service
 public class FileServiceImpl implements FileService {
     @Value("${bot.token}")
@@ -41,18 +43,10 @@ public class FileServiceImpl implements FileService {
     private final BinaryContentDAO binaryContentDAO;
     private final CryptoTool cryptoTool;
 
-    public FileServiceImpl(AppDocumentDAO appDocumentDAO, AppPhotoDAO appPhotoDAO, BinaryContentDAO binaryContentDAO, CryptoTool cryptoTool) {
-        this.appDocumentDAO = appDocumentDAO;
-        this.appPhotoDAO = appPhotoDAO;
-        this.binaryContentDAO = binaryContentDAO;
-        this.cryptoTool = cryptoTool;
-    }
-
-
     @Override
     public AppDocument processDoc(Message telegramMessage) {
         Document telegramDoc = telegramMessage.getDocument();
-        String fileId = telegramMessage.getDocument().getFileId();
+        String fileId = telegramDoc.getFileId();
         ResponseEntity<String> response = getFilePath(fileId);
         if(response.getStatusCode() == HttpStatus.OK){
             BinaryContent persistentBinaryContent = getPersistentBinaryContent(response);
@@ -81,11 +75,20 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    @Override
-    public String generateLink(Long fileId, LinkType linkType) {
-        var hash = cryptoTool.hashOf(fileId);
+    private BinaryContent getPersistentBinaryContent(ResponseEntity<String> response) {
+        String filePath = getJsonFilePath(response);
+        byte[] fileInByte = downloadFile(filePath);
+        BinaryContent transientBinaryContent = BinaryContent.builder()
+                .fileAsArrayOfBytes(fileInByte)
+                .build();
+        return binaryContentDAO.save(transientBinaryContent);
+    }
 
-        return "http://" + linkAddress + "/" + linkType + "?id=" + hash;
+    private String getJsonFilePath(ResponseEntity<String> response) {
+        JSONObject jsonObject = new JSONObject(response.getBody());
+        return String.valueOf(jsonObject
+                .getJSONObject("result")
+                .getString("file_path"));
     }
 
     private AppDocument buildTransientAppDoc(Document telegramDoc, BinaryContent persistentBinaryContent) {
@@ -106,13 +109,25 @@ public class FileServiceImpl implements FileService {
                 .build();
     }
 
-    private BinaryContent getPersistentBinaryContent(ResponseEntity<String> response) {
-        String filePath = getJsonFilePath(response);
-        byte[] fileInByte = downloadFile(filePath);
-        BinaryContent transientBinaryContent = BinaryContent.builder()
-                .fileAsArrayOfBytes(fileInByte)
-                .build();
-        return binaryContentDAO.save(transientBinaryContent);
+    private ResponseEntity<String> getFilePath(String fileId) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(
+                fileInfoUri,
+                HttpMethod.GET,
+                request,
+                String.class,
+                botToken, fileId
+        );
+    }
+
+    @Override
+    public String generateLink(Long fileId, LinkType linkType) {
+        var hash = cryptoTool.hashOf(fileId);
+
+        return "http://" + linkAddress + "/" + linkType + "?id=" + hash;
     }
 
     private byte[] downloadFile(String filePath) {
@@ -132,26 +147,5 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new UploadFileException(urlObj.toExternalForm(), e);
         }
-    }
-
-    private String getJsonFilePath(ResponseEntity<String> response) {
-        JSONObject jsonObject = new JSONObject(response.getBody());
-        return String.valueOf(jsonObject
-                .getJSONObject("result")
-                .getString("file_path"));
-    }
-
-    private ResponseEntity<String> getFilePath(String fileId) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> request = new HttpEntity<>(headers);
-
-        return restTemplate.exchange(
-                fileInfoUri,
-                HttpMethod.GET,
-                request,
-                String.class,
-                botToken, fileId
-        );
     }
 }
