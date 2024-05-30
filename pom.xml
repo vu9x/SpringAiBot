@@ -22,9 +22,7 @@
 		<module>openai</module>
 		<module>node</module>
         <module>dispatcher</module>
-		<module>common-jpa</module>
         <module>rest-service</module>
-        <module>common-utils</module>
         <module>mail-service</module>
     </modules>
 	<properties>

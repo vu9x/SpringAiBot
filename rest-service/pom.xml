@@ -13,6 +13,7 @@
 
     <groupId>vn.vt</groupId>
     <artifactId>rest-service</artifactId>
+    <version>0.0.1</version>
     <name>rest-service</name>
     <description>rest-service</description>
 
