@@ -36,5 +36,4 @@ build/
 application.properties
 application.yaml
 *.apps.googleusercontent.com.json
-
-git-filter-repo
+.env
