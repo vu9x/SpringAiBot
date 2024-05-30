@@ -114,7 +114,7 @@ public class MailSernderGmailAuthServiceImpl implements MailSenderService {
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, gsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
-                .setAccessType("offline")
+                .setAccessType("online")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(port).build();
         //returns an authorized Credential object.

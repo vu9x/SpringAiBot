@@ -107,6 +107,9 @@ services:
     build:
       context: ./
       dockerfile: ./mail-service/Dockerfile
+    ports:
+      - ${MAIL_SERVICE_PORT}:${MAIL_SERVICE_PORT}
+      - ${MAIL_RECEIVER_PORT}:${MAIL_RECEIVER_PORT}
     environment:
       MAIL_SERVICE_PORT: ${MAIL_SERVICE_PORT}
       MAIL_RECEIVER_PORT: ${MAIL_RECEIVER_PORT}
