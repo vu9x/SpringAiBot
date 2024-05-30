@@ -3,20 +3,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>vn.vt</groupId>
-        <artifactId>springAiBot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>vn.vt</groupId>
     <artifactId>rest-service</artifactId>
+    <name>rest-service</name>
+    <description>rest-service</description>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+
+        <lombok.version>1.18.32</lombok.version>
+        <log4j-core.version>2.23.1</log4j-core.version>
+        <log4j-api.version>2.23.1</log4j-api.version>
+
         <common-jpa.version>0.0.1-SNAPSHOT</common-jpa.version>
         <common-utils.version>0.0.1-SNAPSHOT</common-utils.version>
+        <vn.vt.common.version>0.0.1</vn.vt.common.version>
+
         <commons-io.version>2.16.1</commons-io.version>
         <postgresql.version>42.7.3</postgresql.version>
 
@@ -25,17 +38,10 @@
     <dependencies>
         <dependency>
             <groupId>vn.vt</groupId>
-            <artifactId>common-jpa</artifactId>
-            <version>${common-jpa.version}</version>
+            <artifactId>common</artifactId>
+            <version>${vn.vt.common.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>vn.vt</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>${common-utils.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -59,6 +65,43 @@
             <version>${postgresql.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

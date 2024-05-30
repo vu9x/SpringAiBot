@@ -3,62 +3,58 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>vn.vt</groupId>
-        <artifactId>springAiBot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>vn.vt</groupId>
     <artifactId>node</artifactId>
+    <version>0.0.1</version>
+    <name>node-service</name>
+    <description>node-service</description>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+
         <telegrambot.starter.version>6.9.7.1</telegrambot.starter.version>
         <postgresql.version>42.7.3</postgresql.version>
-
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <javax.mail.version>1.4.7</javax.mail.version>
         <org.json.version>20240303</org.json.version>
 
-        <commom-jpa.version>0.0.1-SNAPSHOT</commom-jpa.version>
-        <common-utils.version>0.0.1-SNAPSHOT</common-utils.version>
-<!--        <openai.version>0.0.1-SNAPSHOT</openai.version>-->
+        <log4j-core.version>2.23.1</log4j-core.version>
+        <log4j-api.version>2.23.1</log4j-api.version>
+        <lombok.version>1.18.32</lombok.version>
+
+        <vn.vt.common.version>0.0.1</vn.vt.common.version>
+<!--        <vn.vt.openai.version>0.0.1</openai.version>-->
 
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>vn.vt</groupId>
-            <artifactId>common-jpa</artifactId>
-            <version>${commom-jpa.version}</version>
+            <artifactId>common</artifactId>
+            <version>${vn.vt.common.version}</version>
         </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>vn.vt</groupId>-->
 <!--            <artifactId>openai</artifactId>-->
-<!--            <version>${openai.version}</version>-->
+<!--            <version>${vn.vt.openai.version}</version>-->
 <!--        </dependency>-->
 
         <dependency>
-            <groupId>vn.vt</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>${common-utils.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter &ndash;&gt;-->
-        <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-spring-boot-starter</artifactId>
-            <version>${telegrambot.starter.version}</version>
         </dependency>
 
         <dependency>
@@ -72,41 +68,84 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>${telegrambot.starter.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
             <version>${jakarta.xml.bind-api.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>${jaxb-api.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${org.json.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

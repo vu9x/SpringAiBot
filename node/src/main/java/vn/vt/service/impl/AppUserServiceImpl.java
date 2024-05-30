@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import vn.vt.dao.AppUserDAO;
 import vn.vt.dto.MailParams;
 import vn.vt.entity.AppUser;
-import vn.vt.entity.enums.UserState;
+import vn.vt.enums.UserState;
 import vn.vt.service.AppUserService;
 import vn.vt.utils.CryptoTool;
 

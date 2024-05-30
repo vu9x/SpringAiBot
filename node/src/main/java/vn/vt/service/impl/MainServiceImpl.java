@@ -14,7 +14,7 @@ import vn.vt.service.*;
 import vn.vt.service.enums.LinkType;
 import vn.vt.service.enums.ServiceCommand;
 
-import static vn.vt.entity.enums.UserState.*;
+import static vn.vt.enums.UserState.*;
 import static vn.vt.service.enums.ServiceCommand.*;
 
 @Log4j2
