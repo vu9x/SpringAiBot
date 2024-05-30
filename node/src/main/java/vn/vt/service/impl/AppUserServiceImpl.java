@@ -30,10 +30,6 @@ public class AppUserServiceImpl implements AppUserService {
     @Value("${spring.rabbitmq.queues.registration-mail}")
     private String registrationMailQueue;
 
-    @Value("${service.mail.uri}")
-    private String mailServiceUri;
-
-
     @Override
     public String registerUser(AppUser appUser) {
         if(appUser.getIsActive()){
