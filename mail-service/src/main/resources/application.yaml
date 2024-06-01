@@ -1,0 +1,31 @@
+server:
+  port: ${MAIL_SERVICE_PORT:8088}
+
+receiver:
+  port: ${MAIL_RECEIVER_PORT:8888}
+
+mail:
+  username: ${MAIL_USERNAME}
+
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:firstUser}
+    password: ${RABBIT_PASSWORD:p@ssw0rd}
+    queues:
+      registration-mail: ${RABBIT_REGISTRATION_MAIL_QUEUE}
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT:465}
+    protocol: ${MAIL_PROTOCOL:smtps}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+
+service:
+  activation:
+    uri: ${ACTIVATION_URI}
+
+
+

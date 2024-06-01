@@ -1,0 +1,7 @@
+server:
+  port: ${OPENAI_PORT:8086}
+
+openai:
+  url: ${OPENAI_URL}
+  apiKey: ${OPENAI_APIKEY}
+  model: ${OPENAI_MODEL:gpt-3.5-turbo}
