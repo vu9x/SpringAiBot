@@ -3,7 +3,7 @@
 ENV_FILE="./.env"
 
 # Обновление кода и деплой backend приложения
-pushd ~/springAiBot/ || exit
+pushd ~/SpringAiBot/ || exit
 
 # Обновляем ветку main
 git pull
