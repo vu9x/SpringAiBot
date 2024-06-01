@@ -33,7 +33,5 @@ build/
 .vscode/
 
 ### resourses ###
-application.properties
-application.yaml
 *.apps.googleusercontent.com.json
 .env
