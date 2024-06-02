@@ -17,13 +17,13 @@ import java.nio.charset.StandardCharsets;
 
 @Log4j2
 @RequiredArgsConstructor
-@RequestMapping("/file")
+@RequestMapping("/api")
 @RestController
 public class FileController {
 
     private final FileService fileService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/get-doc")
+    @RequestMapping(method = RequestMethod.GET, value = "/file/get-doc")
     public void getDoc(@RequestParam("id") String id, HttpServletResponse response) throws UnsupportedEncodingException {
         //TODO для формирования badRequest добавить ControllerAdvice
         var doc = fileService.getDocument(id);
@@ -46,7 +46,7 @@ public class FileController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/get-photo")
+    @RequestMapping(method = RequestMethod.GET, value = "/file/get-photo")
     public void getPhoto(@RequestParam("id") String id, HttpServletResponse response){
         //TODO для формирования badRequest добавить ControllerAdvice
         var photo = fileService.getPhoto(id);

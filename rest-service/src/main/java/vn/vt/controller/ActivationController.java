@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import vn.vt.service.UserActivationService;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api")
 @RestController
 public class ActivationController {
 
     private final UserActivationService userActivationService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/activation")
+    @RequestMapping(method = RequestMethod.GET, value = "/user/activation")
     public ResponseEntity<?> activation(@RequestParam("id") String id){
         var res = userActivationService.activation(id);
         if (res){

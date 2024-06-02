@@ -127,7 +127,7 @@ public class FileServiceImpl implements FileService {
     public String generateLink(Long fileId, LinkType linkType) {
         var hash = cryptoTool.hashOf(fileId);
 
-        return linkAddress + "/" + linkType + "?id=" + hash;
+        return linkAddress + "/api/" + linkType + "?id=" + hash;
     }
 
     private byte[] downloadFile(String filePath) {
