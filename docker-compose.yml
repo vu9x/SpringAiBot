@@ -19,7 +19,7 @@ services:
 #    ports:
 #      - ${DISPATCHER_PORT}:${DISPATCHER_PORT}
     environment:
-      HOST_URL: ${HOST_URL}
+      HOST_URL: 'telegramaibot.ru'
       DISPATCHER_PORT: ${DISPATCHER_PORT}
       TG_BOT_NAME: ${TG_BOT_NAME}
       TG_BOT_TOKEN: ${TG_BOT_TOKEN}
@@ -54,7 +54,7 @@ services:
       context: ./
       dockerfile: ./node/Dockerfile
     environment:
-      HOST_URL: ${HOST_URL}
+      HOST_URL: 'telegramaibot.ru'
       NODE_PORT: ${NODE_PORT}
       RABBIT_HOST: ${RABBIT_HOST}
       RABBIT_PORT: ${RABBIT_PORT}
@@ -98,7 +98,7 @@ services:
 #    ports:
 #      - ${REST_SERVICE_PORT}:${REST_SERVICE_PORT}
     environment:
-      HOST_URL: ${HOST_URL}
+      HOST_URL: 'telegramaibot.ru'
       REST_SERVICE_PORT: ${REST_SERVICE_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
       POSTGRES_USERNAME: ${POSTGRES_USERNAME}
@@ -205,7 +205,7 @@ services:
       - ./data:/etc/traefik/data
       - /home/vn/certs:/etc/traefik/certs
     environment:
-      HOST_URL: ${HOST_URL}
+      HOST_URL: 'telegramaibot.ru'
     labels:
       - "traefik.enable=true"
 
