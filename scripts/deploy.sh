@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENV_FILE="./.env"
+ENV_FILE="/home/vn/SpringAiBot/.env"
 
 # Обновление кода и деплой backend приложения
 pushd ~/SpringAiBot/ || exit
