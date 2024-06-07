@@ -62,7 +62,7 @@
     </profiles>
     <activeProfiles>
         <activeProfile>central-maven</activeProfile>
-        <!--<activeProfile>sonatype-mirror</activeProfile>-->
+<!--        <activeProfile>sonatype-mirror</activeProfile>-->
         <!--<activeProfile>google-central</activeProfile>-->
         <!--<activeProfile>google-central-eu</activeProfile>-->
         <!--<activeProfile>google-central-ap</activeProfile>-->
