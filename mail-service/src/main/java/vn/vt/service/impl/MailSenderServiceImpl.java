@@ -12,7 +12,7 @@ import vn.vt.service.MailSenderService;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class MailSernderServiceImpl implements MailSenderService {
+public class MailSenderServiceImpl implements MailSenderService {
     private final JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String emailFrom;
