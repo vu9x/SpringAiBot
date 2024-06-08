@@ -45,8 +45,6 @@ class MainServiceImplTest {
     @InjectMocks
     private MainServiceImpl mainService;
 
-    private Long testId = 1L;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);

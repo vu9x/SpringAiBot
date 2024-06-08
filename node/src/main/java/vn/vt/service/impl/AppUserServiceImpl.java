@@ -36,7 +36,7 @@ public class AppUserServiceImpl implements AppUserService {
             return "Вы уже зарегистрированы!";
         } else if(appUser.getEmail() != null){
             return "Вам на почту уже было отправлено письмо. " +
-                    " Перейдите по ссылке в письме для подтверждения регистрации.";
+                    "Перейдите по ссылке в письме для подтверждения регистрации.";
         }
 
         appUser.setState(UserState.WAIT_FOR_EMAIL_STATE);
