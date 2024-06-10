@@ -45,7 +45,8 @@ public class HttpOpenAiBuilder {
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             log.info(response.statusCode());
-            return extractContentFromResponse(response.body());
+//            return extractContentFromResponse(response.body());
+            return response.body();
 
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException(e);

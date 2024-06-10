@@ -41,86 +41,18 @@ public class MainServiceImpl implements MainService {
         var serviceCommand = ServiceCommand.fromValue(message);
         var output = "";
 
-        if (CANCEL.equals(serviceCommand)) {
-            output =  cancelProcess(appUser);
-        } else if (BASIC_STATE.equals(userState)) {
-            output = processServiceCommand(appUser, message);
-        } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
-            output = appUserService.setEmail(appUser, message);
-        } else if (appUser.getIsActive()) {
+        if (serviceCommand == null && appUser.getIsActive()){
             output = openAiService.sendRequestToOpenAiServer(message);
             log.info("openai: Received OpenAiResponse");
             saveOpenAiResponse(appUser, message, output);
-        } else{
-            output = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
+        } else {
+            output = processServiceCommand(appUser, message);
         }
 
         Long chatId = update.getMessage().getChatId();
         sendAnswer(output, chatId);
 
     }
-
-
-//    public void processTextMessage111(Update update) {
-//        saveRawData(update);
-//        var appUser = findOrSaveAppUser(update);
-//
-//        Long chatId = update.getMessage().getChatId();
-//        if(isNotAllowToSendContent(chatId, appUser)){
-//            return;
-//        }
-//
-//        var userState = appUser.getState();
-//        String message = update.getMessage().getText();
-//        var output = "";
-//
-//        if (BASIC_STATE.equals(userState)) {
-//            output = processServiceCommand(appUser, message);
-//        }
-//
-//
-//
-//        var serviceCommand = ServiceCommand.fromValue(message);
-//        if(CANCEL.equals(serviceCommand)){
-//            output = cancelProcess(appUser);
-//        } else if (BASIC_STATE.equals(userState)) {
-//            output = processServiceCommand(appUser, message);
-//        } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
-//            output = appUserService.setEmail(appUser, message);
-//        } else {
-////            log.error("Unknown user state: " + userState);
-////            output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
-//            output = openAiService.sendRequestToOpenAiServer(message);
-//            log.info("openai: Received OpenAiResponse");
-//
-//            saveOpenAiResponse(appUser, message, output);
-//        }
-//
-//        sendAnswer(output, chatId);
-//
-//    }
-
-
-
-
-//    private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
-//        var userState = appUser.getState();
-//        if(!appUser.getIsActive()){
-//            var error = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
-//            sendAnswer(error, chatId);
-//            return true;
-//
-//        }
-//        else if (!BASIC_STATE.equals(userState)){
-//            var error = "Отмените текущкую команду с помощью /cancel для отправки файлов";
-//            sendAnswer(error, chatId);
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-
 
     private void sendAnswer(String output, Long chatId) {
         SendMessage sendMessage = new SendMessage();
@@ -129,8 +61,16 @@ public class MainServiceImpl implements MainService {
         producerService.producerAnswer(sendMessage);
     }
 
-    private String processServiceCommand(AppUser appUser, String cmd) {
-        var serviceCommand = ServiceCommand.fromValue(cmd);
+    private String processServiceCommand(AppUser appUser, String message) {
+        var serviceCommand = ServiceCommand.fromValue(message);
+
+        if (CANCEL.equals(serviceCommand)) {
+            return cancelProcess(appUser);
+        }
+
+        if (WAIT_FOR_EMAIL_STATE.equals(appUser.getState())) {
+            return appUserService.setEmail(appUser, message);
+        }
 
         if (REGISTRATION.equals(serviceCommand)){
             return appUserService.registerUser(appUser);
@@ -139,8 +79,8 @@ public class MainServiceImpl implements MainService {
         } else if (START.equals(serviceCommand)){
             return "Приветствую!\n" +
                     "Вы подключились к умному чатботу R2D2.\n" +
-                    "Я умею отвечать на ваши текстовые сообщения с помощью ChatGPT." +
-                    "А также сохранять ваши фото и документы на сервере.\n" +
+                    "Я умею отвечать на ваши текстовые сообщения с помощью ChatGPT, " +
+                    "а также сохранять ваши фото и документы на сервере.\n" +
                     "Чтобы начать работу вы должны быть зарегистрированы. Введите команду /registration.\n" +
                     "Чтобы посмотреть список доступных команд введите /help";
         } else {
