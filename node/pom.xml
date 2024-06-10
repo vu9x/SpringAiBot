@@ -35,8 +35,6 @@
         <lombok.version>1.18.32</lombok.version>
 
         <vn.vt.common.version>0.0.1</vn.vt.common.version>
-<!--        <vn.vt.openai.version>0.0.1</openai.version>-->
-
     </properties>
 
     <dependencies>
@@ -45,12 +43,6 @@
             <artifactId>common</artifactId>
             <version>${vn.vt.common.version}</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>vn.vt</groupId>-->
-<!--            <artifactId>openai</artifactId>-->
-<!--            <version>${vn.vt.openai.version}</version>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

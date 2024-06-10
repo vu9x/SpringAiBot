@@ -12,10 +12,8 @@ import vn.vt.entity.*;
 import vn.vt.exceptions.UploadFileException;
 import vn.vt.service.*;
 import vn.vt.service.enums.LinkType;
-import vn.vt.service.enums.ServiceCommand;
 
 import static vn.vt.enums.UserState.*;
-import static vn.vt.service.enums.ServiceCommand.*;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -25,38 +23,6 @@ public class MainServiceImpl implements MainService {
     private final ProducerService producerService;
     private final AppUserDAO appUserDAO;
     private final FileService fileService;
-    private final AppUserService appUserService;
-//    private final TextService textService;
-//    private final OpenAiService openAiService;
-
-    @Override
-    public void processTextMessage(Update update) {
-        saveRawData(update);
-        var appUser = findOrSaveAppUser(update);
-        var userState = appUser.getState();
-        String text = update.getMessage().getText();
-        var output = "";
-
-        var serviceCommand = ServiceCommand.fromValue(text);
-        if(CANCEL.equals(serviceCommand)){
-            output = cancelProcess(appUser);
-        } else if (BASIC_STATE.equals(userState)) {
-            output = processServiceCommand(appUser, text);
-        } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
-            output = appUserService.setEmail(appUser, text);
-        } else {
-            log.error("Unknown user state: " + userState);
-            output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
-        }
-
-        // TODO добавить зависимость для отправки сообщения в OpenAi
-//        String openAiResponse = openAiService.sendRequestToOpenAiServer(String request);
-//        AppOpenAiResponses appOpenAiResponses = textService.processText(update, appUser, openAiResponse);
-
-        Long chatId = update.getMessage().getChatId();
-        sendAnswer(output, chatId);
-
-    }
 
     @Override
     public void processDocMessage(Update update) {
@@ -136,37 +102,6 @@ public class MainServiceImpl implements MainService {
         sendMessage.setText(output);
         producerService.producerAnswer(sendMessage);
     }
-
-    private String processServiceCommand(AppUser appUser, String cmd) {
-        var serviceCommand = ServiceCommand.fromValue(cmd);
-
-        if (REGISTRATION.equals(serviceCommand)){
-            return appUserService.registerUser(appUser);
-        } else if (HELP.equals(serviceCommand)){
-            return help();
-//        } else if (CHAT_GPT.equals(serviceCommand)){
-//            //TODO добавить подключеие к API CHAT_GPT
-//            return "Временно не доступно.";
-        } else if (START.equals(serviceCommand)){
-            return "Приветствую! Чтобы посмотреть список доступных команд введите /help";
-        } else {
-            return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
-        }
-    }
-
-    private String help() {
-        return "Список доступных команд:\n"
-                + "/registration - регистрация пользователей\n"
-//                + "/chatgpt - подключение к чат gpt\n"
-                + "/cancel отмена выполнения текущей команды";
-    }
-
-    private String cancelProcess(AppUser appUser) {
-        appUser.setState((BASIC_STATE));
-        appUserDAO.save(appUser);
-        return "Команда отменена!";
-    }
-
     private void saveRawData(Update update) {
         RawData rawData = RawData.builder()
                 .event(update)
