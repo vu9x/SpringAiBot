@@ -32,8 +32,10 @@ public class HttpOpenAiBuilder {
         //TODO сделать более элегантное решение через JSON объект
         String requestBody = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}]}";
 
-        try(HttpClient httpClient = HttpClient.newHttpClient();) {
 
+
+        try{
+            HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(url))
                     .header("Authorization", "Bearer " + apiKey)
@@ -43,7 +45,6 @@ public class HttpOpenAiBuilder {
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             log.info(response.statusCode());
-
             return extractContentFromResponse(response.body());
 
         } catch (URISyntaxException | IOException | InterruptedException e) {

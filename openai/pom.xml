@@ -30,9 +30,7 @@
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <javax.mail.version>1.4.7</javax.mail.version>
 
-
         <vn.vt.common.version>0.0.1</vn.vt.common.version>
-
     </properties>
 
     <dependencies>
