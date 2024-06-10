@@ -16,8 +16,8 @@ services:
       context: ./
       dockerfile: ./dispatcher/Dockerfile
 #    TODO нужно откомментировать для локального запуска без traefik
-#    ports:
-#      - ${DISPATCHER_PORT}:${DISPATCHER_PORT}
+    ports:
+      - ${DISPATCHER_PORT}:${DISPATCHER_PORT}
     environment:
       DISPATCHER_PORT: ${DISPATCHER_PORT}
       TG_BOT_NAME: ${TG_BOT_NAME}
@@ -86,6 +86,43 @@ services:
       postgres-db:
         condition: service_healthy
 
+  openai:
+    container_name: openai
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: ./openai/Dockerfile
+#    TODO нужно откомментировать для локального запуска без traefik
+    ports:
+      - ${OPENAI_PORT}:${OPENAI_PORT}
+    environment:
+      NODE_PORT: ${OPENAI_PORT}
+      RABBIT_HOST: ${RABBIT_HOST}
+      RABBIT_PORT: ${RABBIT_PORT}
+      RABBIT_USERNAME: ${RABBIT_USERNAME}
+      RABBIT_PASSWORD: ${RABBIT_PASSWORD}
+      RABBIT_TEXT_MESSAGE_UPDATE_QUEUE: ${RABBIT_TEXT_MESSAGE_UPDATE_QUEUE}
+      RABBIT_ANSWER_MESSAGE_UPDATE_QUEUE: ${RABBIT_ANSWER_MESSAGE_UPDATE_QUEUE}
+      RABBIT_REGISTRATION_MAIL_QUEUE: ${RABBIT_REGISTRATION_MAIL_QUEUE}
+      POSTGRES_URL: ${POSTGRES_URL}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DRIVER_CLASS_NAME: ${POSTGRES_DRIVER_CLASS_NAME}
+      OPENAI_URL: ${OPENAI_URL}
+      OPENAI_APIKEY: ${OPENAI_APIKEY}
+      OPENAI_MODEL: ${OPENAI_MODEL}
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '3'
+    depends_on:
+      rabbit-mq:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy
+
+
   rest-service:
     container_name: rest-service
     restart: on-failure
@@ -93,8 +130,8 @@ services:
       context: ./
       dockerfile: ./rest-service/Dockerfile
 #   TODO нужно откомментировать для локального запуска без traefik
-#    ports:
-#      - ${REST_SERVICE_PORT}:${REST_SERVICE_PORT}
+    ports:
+      - ${REST_SERVICE_PORT}:${REST_SERVICE_PORT}
     environment:
       REST_SERVICE_PORT: ${REST_SERVICE_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
@@ -123,9 +160,8 @@ services:
     build:
       context: ./
       dockerfile: ./mail-service/Dockerfile
-#    ports:
-#      - ${MAIL_SERVICE_PORT}:${MAIL_SERVICE_PORT}
-#      - ${MAIL_RECEIVER_PORT}:${MAIL_RECEIVER_PORT}
+    ports:
+      - ${MAIL_SERVICE_PORT}:${MAIL_SERVICE_PORT}
     environment:
       MAIL_SERVICE_PORT: ${MAIL_SERVICE_PORT}
       MAIL_RECEIVER_PORT: ${MAIL_RECEIVER_PORT}
