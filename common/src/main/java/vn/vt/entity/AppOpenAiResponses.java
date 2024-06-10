@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="app_openaiRespones")
+@Table(name="appOpenaiResponses")
 @Entity
 public class AppOpenAiResponses {
 
@@ -21,7 +21,9 @@ public class AppOpenAiResponses {
     @JoinColumn(name="app_user_id", nullable = false)
     private AppUser appUser;
 
+    @Column(columnDefinition = "text")
     private String userRequest;
 
+    @Column(columnDefinition = "text")
     private String openAiResponse;
 }
