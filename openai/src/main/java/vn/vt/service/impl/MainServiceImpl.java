@@ -36,54 +36,86 @@ public class MainServiceImpl implements MainService {
         saveRawData(update);
         var appUser = findOrSaveAppUser(update);
 
-        Long chatId = update.getMessage().getChatId();
-        if(isNotAllowToSendContent(chatId, appUser)){
-            return;
-        }
-
-
         var userState = appUser.getState();
         String message = update.getMessage().getText();
         var output = "";
 
-        var serviceCommand = ServiceCommand.fromValue(message);
-        if(CANCEL.equals(serviceCommand)){
-            output = cancelProcess(appUser);
-        } else if (BASIC_STATE.equals(userState)) {
+        if (BASIC_STATE.equals(userState)) {
             output = processServiceCommand(appUser, message);
         } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
             output = appUserService.setEmail(appUser, message);
-        } else {
-//            log.error("Unknown user state: " + userState);
-//            output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
+        } else if (appUser.getIsActive()) {
             output = openAiService.sendRequestToOpenAiServer(message);
             log.info("openai: Received OpenAiResponse");
-
             saveOpenAiResponse(appUser, message, output);
+        } else{
+            output = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
         }
 
+        Long chatId = update.getMessage().getChatId();
         sendAnswer(output, chatId);
 
     }
 
 
+//    public void processTextMessage111(Update update) {
+//        saveRawData(update);
+//        var appUser = findOrSaveAppUser(update);
+//
+//        Long chatId = update.getMessage().getChatId();
+//        if(isNotAllowToSendContent(chatId, appUser)){
+//            return;
+//        }
+//
+//        var userState = appUser.getState();
+//        String message = update.getMessage().getText();
+//        var output = "";
+//
+//        if (BASIC_STATE.equals(userState)) {
+//            output = processServiceCommand(appUser, message);
+//        }
+//
+//
+//
+//        var serviceCommand = ServiceCommand.fromValue(message);
+//        if(CANCEL.equals(serviceCommand)){
+//            output = cancelProcess(appUser);
+//        } else if (BASIC_STATE.equals(userState)) {
+//            output = processServiceCommand(appUser, message);
+//        } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
+//            output = appUserService.setEmail(appUser, message);
+//        } else {
+////            log.error("Unknown user state: " + userState);
+////            output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
+//            output = openAiService.sendRequestToOpenAiServer(message);
+//            log.info("openai: Received OpenAiResponse");
+//
+//            saveOpenAiResponse(appUser, message, output);
+//        }
+//
+//        sendAnswer(output, chatId);
+//
+//    }
 
 
-    private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
-        var userState = appUser.getState();
-        if(!appUser.getIsActive()){
-            var error = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
-            sendAnswer(error, chatId);
-            return true;
 
-        } else if (!BASIC_STATE.equals(userState)){
-            var error = "Отмените текущкую команду с помощью /cancel для отправки файлов";
-            sendAnswer(error, chatId);
-            return true;
-        }
 
-        return false;
-    }
+//    private boolean isNotAllowToSendContent(Long chatId, AppUser appUser) {
+//        var userState = appUser.getState();
+//        if(!appUser.getIsActive()){
+//            var error = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
+//            sendAnswer(error, chatId);
+//            return true;
+//
+//        }
+//        else if (!BASIC_STATE.equals(userState)){
+//            var error = "Отмените текущкую команду с помощью /cancel для отправки файлов";
+//            sendAnswer(error, chatId);
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
 
 
@@ -101,9 +133,6 @@ public class MainServiceImpl implements MainService {
             return appUserService.registerUser(appUser);
         } else if (HELP.equals(serviceCommand)){
             return help();
-//        } else if (CHAT_GPT.equals(serviceCommand)){
-//            //TODO добавить подключеие к API CHAT_GPT
-//            return "Временно не доступно.";
         } else if (START.equals(serviceCommand)){
             return "Приветствую!\n" +
                     "Вы подключились к умному чатботу R2D2.\n" +
@@ -111,6 +140,8 @@ public class MainServiceImpl implements MainService {
                     "А также сохранять ваши фото и документы на сервере.\n" +
                     "Чтобы начать работу вы должны быть зарегистрированы. Введите команду /registration.\n" +
                     "Чтобы посмотреть список доступных команд введите /help";
+        } else if (CANCEL.equals(serviceCommand)){
+            return cancelProcess(appUser);
         } else {
             return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
         }
