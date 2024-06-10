@@ -97,6 +97,7 @@ services:
       - ${OPENAI_PORT}:${OPENAI_PORT}
     environment:
       NODE_PORT: ${OPENAI_PORT}
+      SALT: ${SALT}
       RABBIT_HOST: ${RABBIT_HOST}
       RABBIT_PORT: ${RABBIT_PORT}
       RABBIT_USERNAME: ${RABBIT_USERNAME}
