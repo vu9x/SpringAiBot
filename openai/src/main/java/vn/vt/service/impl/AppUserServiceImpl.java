@@ -62,7 +62,8 @@ public class AppUserServiceImpl implements AppUserService {
             sendRegistrationMail(cryptoUserId, email);
 
             return "Вам на почту было отправлено письмо." +
-                    " Перейдите по ссылке в письме для подтверждения регистрации.";
+                    " Перейдите по ссылке в письме для подтверждения регистрации.\n" +
+                    "Если вы ввели не правильную почту введите команду /cancel";
         } else {
             return "Этот email уже используется. Введите корректный email." +
                     " Для отмены команды введите /cancel";

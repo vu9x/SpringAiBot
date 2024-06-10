@@ -38,9 +38,12 @@ public class MainServiceImpl implements MainService {
 
         var userState = appUser.getState();
         String message = update.getMessage().getText();
+        var serviceCommand = ServiceCommand.fromValue(message);
         var output = "";
 
-        if (BASIC_STATE.equals(userState)) {
+        if (CANCEL.equals(serviceCommand)) {
+            output =  cancelProcess(appUser);
+        } else if (BASIC_STATE.equals(userState)) {
             output = processServiceCommand(appUser, message);
         } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
             output = appUserService.setEmail(appUser, message);
@@ -140,8 +143,6 @@ public class MainServiceImpl implements MainService {
                     "А также сохранять ваши фото и документы на сервере.\n" +
                     "Чтобы начать работу вы должны быть зарегистрированы. Введите команду /registration.\n" +
                     "Чтобы посмотреть список доступных команд введите /help";
-        } else if (CANCEL.equals(serviceCommand)){
-            return cancelProcess(appUser);
         } else {
             return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
         }
