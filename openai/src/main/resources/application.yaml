@@ -5,3 +5,24 @@ openai:
   url: ${OPENAI_URL}
   apiKey: ${OPENAI_APIKEY}
   model: ${OPENAI_MODEL:gpt-3.5-turbo}
+
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:firstUser}
+    password: ${RABBIT_PASSWORD:p@ssw0rd}
+    queues:
+      text-message-update: ${RABBIT_TEXT_MESSAGE_UPDATE_QUEUE}
+      answer-message: ${RABBIT_ANSWER_MESSAGE_UPDATE_QUEUE}
+      registration-mail: ${RABBIT_REGISTRATION_MAIL_QUEUE}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgresdb}
+    username: ${POSTGRES_USERNAME:userdb}
+    password: ${POSTGRES_PASSWORD:p@ssw0rd}
+    driver-class-name: ${POSTGRES_DRIVER_CLASS_NAME:org.postgresql.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true

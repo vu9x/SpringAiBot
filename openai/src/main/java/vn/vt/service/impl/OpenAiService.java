@@ -1,4 +1,4 @@
-package vn.vt.service;
+package vn.vt.service.impl;
 
 import org.springframework.stereotype.Service;
 import vn.vt.controller.HttpOpenAiBuilder;
