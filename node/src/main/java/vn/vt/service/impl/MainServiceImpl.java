@@ -144,9 +144,9 @@ public class MainServiceImpl implements MainService {
             return appUserService.registerUser(appUser);
         } else if (HELP.equals(serviceCommand)){
             return help();
-        } else if (CHAT_GPT.equals(serviceCommand)){
-            //TODO добавить подключеие к API CHAT_GPT
-            return "Временно не доступно.";
+//        } else if (CHAT_GPT.equals(serviceCommand)){
+//            //TODO добавить подключеие к API CHAT_GPT
+//            return "Временно не доступно.";
         } else if (START.equals(serviceCommand)){
             return "Приветствую! Чтобы посмотреть список доступных команд введите /help";
         } else {
@@ -157,7 +157,7 @@ public class MainServiceImpl implements MainService {
     private String help() {
         return "Список доступных команд:\n"
                 + "/registration - регистрация пользователей\n"
-                + "/chatgpt - подключение к чат gpt\n"
+//                + "/chatgpt - подключение к чат gpt\n"
                 + "/cancel отмена выполнения текущей команды";
     }
 
