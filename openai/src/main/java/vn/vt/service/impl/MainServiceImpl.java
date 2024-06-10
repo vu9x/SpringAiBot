@@ -41,12 +41,23 @@ public class MainServiceImpl implements MainService {
         var serviceCommand = ServiceCommand.fromValue(message);
         var output = "";
 
-        if (serviceCommand == null && appUser.getIsActive()){
+        if(CANCEL.equals(serviceCommand)){
+            output = cancelProcess(appUser);
+        } else if (HELP.equals(serviceCommand)){
+            output = help();
+        } else if (START.equals(serviceCommand)) {
+            output = start();
+        } else if(appUser.getIsActive() && appUser.getEmail() != null){
             output = openAiService.sendRequestToOpenAiServer(message);
             log.info("openai: Received OpenAiResponse");
             saveOpenAiResponse(appUser, message, output);
-        } else {
+        } else if (BASIC_STATE.equals(userState)) {
             output = processServiceCommand(appUser, message);
+        } else if (WAIT_FOR_EMAIL_STATE.equals(userState)) {
+            output = appUserService.setEmail(appUser, message);
+        } else {
+            log.error("Unknown user state: " + userState);
+            output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
         }
 
         Long chatId = update.getMessage().getChatId();
@@ -64,28 +75,20 @@ public class MainServiceImpl implements MainService {
     private String processServiceCommand(AppUser appUser, String message) {
         var serviceCommand = ServiceCommand.fromValue(message);
 
-        if (CANCEL.equals(serviceCommand)) {
-            return cancelProcess(appUser);
-        }
-
-        if (WAIT_FOR_EMAIL_STATE.equals(appUser.getState())) {
-            return appUserService.setEmail(appUser, message);
-        }
-
         if (REGISTRATION.equals(serviceCommand)){
             return appUserService.registerUser(appUser);
-        } else if (HELP.equals(serviceCommand)){
-            return help();
-        } else if (START.equals(serviceCommand)){
-            return "Приветствую!\n" +
-                    "Вы подключились к умному чатботу R2D2.\n" +
-                    "Я умею отвечать на ваши текстовые сообщения с помощью ChatGPT, " +
-                    "а также сохранять ваши фото и документы на сервере.\n" +
-                    "Чтобы начать работу вы должны быть зарегистрированы. Введите команду /registration.\n" +
-                    "Чтобы посмотреть список доступных команд введите /help";
         } else {
             return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
         }
+    }
+
+    private String start(){
+        return "Приветствую!\n" +
+                "Вы подключились к умному чатботу R2D2.\n" +
+                "Я умею отвечать на ваши текстовые сообщения с помощью ChatGPT, " +
+                "а также сохранять ваши фото и документы на сервере.\n" +
+                "Чтобы начать работу вы должны быть зарегистрированы. Введите команду /registration.\n" +
+                "Чтобы посмотреть список доступных команд введите /help";
     }
 
     private String help() {
