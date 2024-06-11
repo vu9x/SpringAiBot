@@ -10,7 +10,7 @@ pushd ~/SpringAiBot/ || exit
 git pull
 
 # Переходим на ветку main
-git switch main
+git switch dev
 
 # Останавливаем старые контейнеры микросервисов и запускаем новые, с обновлённым кодом
 docker compose -f docker-compose.yml --env-file $ENV_FILE down --timeout=60 --remove-orphans
