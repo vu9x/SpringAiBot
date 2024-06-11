@@ -15,9 +15,9 @@ services:
     build:
       context: ./
       dockerfile: ./dispatcher/Dockerfile
-#    TODO нужно откомментировать для локального запуска без traefik
-    ports:
-      - ${DISPATCHER_PORT}:${DISPATCHER_PORT}
+#    TODO нужно убрать комментарий для локального запуска без traefik
+#    ports:
+#      - ${DISPATCHER_PORT}:${DISPATCHER_PORT}
     environment:
       DISPATCHER_PORT: ${DISPATCHER_PORT}
       TG_BOT_NAME: ${TG_BOT_NAME}
@@ -92,9 +92,9 @@ services:
     build:
       context: ./
       dockerfile: ./openai/Dockerfile
-#    TODO нужно откомментировать для локального запуска без traefik
-    ports:
-      - ${OPENAI_PORT}:${OPENAI_PORT}
+#    TODO нужно убрать комментарий для локального запуска без traefik
+#    ports:
+#      - ${OPENAI_PORT}:${OPENAI_PORT}
     environment:
       NODE_PORT: ${OPENAI_PORT}
       SALT: ${SALT}
@@ -130,9 +130,9 @@ services:
     build:
       context: ./
       dockerfile: ./rest-service/Dockerfile
-#   TODO нужно откомментировать для локального запуска без traefik
-    ports:
-      - ${REST_SERVICE_PORT}:${REST_SERVICE_PORT}
+#   TODO нужно убрать комментарий для локального запуска без traefik
+#    ports:
+#      - ${REST_SERVICE_PORT}:${REST_SERVICE_PORT}
     environment:
       REST_SERVICE_PORT: ${REST_SERVICE_PORT}
       POSTGRES_URL: ${POSTGRES_URL}
@@ -161,8 +161,8 @@ services:
     build:
       context: ./
       dockerfile: ./mail-service/Dockerfile
-    ports:
-      - ${MAIL_SERVICE_PORT}:${MAIL_SERVICE_PORT}
+#    ports:
+#      - ${MAIL_SERVICE_PORT}:${MAIL_SERVICE_PORT}
     environment:
       MAIL_SERVICE_PORT: ${MAIL_SERVICE_PORT}
       MAIL_RECEIVER_PORT: ${MAIL_RECEIVER_PORT}
