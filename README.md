@@ -35,9 +35,7 @@
      * Заменить в параметре ENV_FILE, /home/**vn**, на вашего пользователя в системе
      * Открыть терминал и запустить команду /bin/bash ~/SpringAiBot/scripts/deploy.sh
 
-
-
-** Деплой на Virtual Private Server**
+** Деплой на Virtual Private Server:**
 * Был арендован польский сервер компании https://timeweb.cloud/, так как OpenAi API не подерживает запросы через серверы, которые находятся в России.
 * Был выкуплен домен: https://telegramaibot.ru/
 * Выпущен и подключен бесплатный сертификат: https://letsencrypt.org/
