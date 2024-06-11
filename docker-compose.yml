@@ -54,6 +54,7 @@ services:
       dockerfile: ./node/Dockerfile
     environment:
       NODE_PORT: ${NODE_PORT}
+      HOST_URL: ${HOST_URL}
       RABBIT_HOST: ${RABBIT_HOST}
       RABBIT_PORT: ${RABBIT_PORT}
       RABBIT_USERNAME: ${RABBIT_USERNAME}
