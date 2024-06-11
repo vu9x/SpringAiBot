@@ -48,7 +48,7 @@ public class MainServiceImpl implements MainService {
         } else if (START.equals(serviceCommand)) {
             output = start();
         } else if(appUser.getIsActive() && appUser.getEmail() != null){
-            output = openAiService.sendRequestToOpenAiServer(message);
+            output = openAiService.sendRequestToOpenAiServer(message).replace("\\n", "\n");
             log.info("openai: Received OpenAiResponse");
             saveOpenAiResponse(appUser, message, output);
         } else if (BASIC_STATE.equals(userState)) {
