@@ -24,12 +24,12 @@ public class FileController {
     private final FileService fileService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/file/get-doc")
-    public void getDoc(@RequestParam("id") String id, HttpServletResponse response) throws UnsupportedEncodingException {
+    public ResponseEntity<String> getDoc(@RequestParam("id") String id, HttpServletResponse response) throws UnsupportedEncodingException {
         //TODO для формирования badRequest добавить ControllerAdvice
         var doc = fileService.getDocument(id);
         if(doc == null){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            return ResponseEntity.badRequest().body("Файл не найден на сервере");
         }
         response.setContentType(MediaType.parseMediaType(doc.getMimeType()).toString());
         response.setHeader("Content-disposition", "attachment; filename=" + doc.getDocName());
@@ -44,15 +44,17 @@ public class FileController {
             log.error(e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
+        return ResponseEntity.ok().body("Файл скачивается на ваше устройство");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/file/get-photo")
-    public void getPhoto(@RequestParam("id") String id, HttpServletResponse response){
+    public ResponseEntity<String> getPhoto(@RequestParam("id") String id, HttpServletResponse response){
         //TODO для формирования badRequest добавить ControllerAdvice
         var photo = fileService.getPhoto(id);
         if(photo == null){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            return ResponseEntity.badRequest().body("Файл не найден на сервере");
         }
 
         response.setContentType(MediaType.IMAGE_JPEG.toString());
@@ -69,5 +71,7 @@ public class FileController {
             log.error(e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
+        return ResponseEntity.ok().body("Файл скачивается на ваше устройство");
     }
 }
