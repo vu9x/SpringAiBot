@@ -34,7 +34,7 @@ service:
     uri: ${TG_BOT_FILE_STORAGE_URI}
 
 link:
-  address: ${HOST_URL:http://localhost:8087}
+  address: ${MY_HOST_URL:http://localhost:8087}
   
 salt: ${SALT:test}
 
