@@ -12,7 +12,7 @@
 
 **Необходимые программы:**
 * Docker - для запуска всех контейнеров на локальном компьютере:
-  * Linux: $sudo apt-get install docker-ce=5:26.1.4-1~ubuntu.22.04~jammy
+  * Linux: $sudo apt-get install docker-ce=5:26.1.4-1~ubuntu.22.04 ~jammy (здесь не закчеркнуто а тильда ~. Прошу убрать пробел между "22.04 ~jammy"
   * Windows: https://www.docker.com/products/docker-desktop/
 * ngrok - для имитации https подключения, который необходим webhook Telegram API:
   * Linux + Windows https://ngrok.com/
