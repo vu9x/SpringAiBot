@@ -33,6 +33,8 @@
     * Для Windows небходимо запустить программу ngrok.exe
     * Добавить токен: $ ngrok config add-authtoken [token]
     * Запустить утилиту для получения статического адреса на локальный порт 8084: $ ngrok http 8084
+![image](https://github.com/vu9x/SpringAiBot/assets/46582095/0529f1ee-0614-4786-b377-9fdd89005755)
+На скриншоте - это https://95a0-113-161-83-135.ngrok-free.app 
     * Скопировать сгенерированный сайт с https в файл .env в параметр TG_BOT_URI
 5. Убериться что докер запущен
 
