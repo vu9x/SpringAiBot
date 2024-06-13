@@ -100,6 +100,8 @@ public class MainServiceImpl implements MainService {
 
     private String cancelProcess(AppUser appUser) {
         appUser.setState((BASIC_STATE));
+        appUser.setIsActive(false);
+        appUser.setEmail(null);
         appUserDAO.save(appUser);
         return "Команда отменена!";
     }
